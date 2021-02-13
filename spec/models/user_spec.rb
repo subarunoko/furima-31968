@@ -54,31 +54,10 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors[:password]).to include "英字と数字の両方を含めて設定してください"
       end
-
-      it "password(確認)が空では登録できない" do
-        @user.password_confirmation = ""
+      it "passwordと確認が一致していないと登録できない" do
+        @user.password_confirmation = "a12345"
         @user.valid?
-        expect(@user.errors[:password_confirmation]).to include "を入力してください"
-      end
-      it "password(確認)が5文字以下では登録できない" do
-        @user.password_confirmation = "a1234"
-        @user.valid?
-        expect(@user.errors[:password_confirmation]).to include "は6文字以上で入力してください"
-      end
-      it "password(確認)が数字のみでは登録できない" do
-        @user.password_confirmation = "123456"
-        @user.valid?
-        expect(@user.errors[:password_confirmation]).to include "英字と数字の両方を含めて設定してください"
-      end
-      it "password(確認)が英字のみでは登録できない" do
-        @user.password_confirmation = "abcdef"
-        @user.valid?
-        expect(@user.errors[:password_confirmation]).to include "英字と数字の両方を含めて設定してください"
-      end
-      it "password(確認)が全角では登録できない" do
-        @user.password_confirmation = "a１２３４５"
-        @user.valid?
-        expect(@user.errors[:password_confirmation]).to include "英字と数字の両方を含めて設定してください"
+        expect(@user.errors[:password_confirmation]).to include "とパスワードの入力が一致しません"
       end
 
       it "苗字が空では登録できない" do
