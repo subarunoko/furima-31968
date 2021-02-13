@@ -24,11 +24,18 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors[:nickname]).to include "を入力してください"
       end
+
       it "emailが空では登録できない" do
         @user.email = ""
         @user.valid?
         expect(@user.errors[:email]).to include "を入力してください"
       end
+      it "emailは＠が含まれていないと登録できない" do
+        @user.email = "test.com"
+        @user.valid?
+        expect(@user.errors[:email]).to include "は不正な値です"
+      end
+
       it "passwordが空では登録できない" do
         @user.password = ""
         @user.valid?
@@ -65,8 +72,8 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors[:family_name]).to include "を入力してください"
       end
-      it "苗字が数字では登録できない" do
-        @user.family_name = "123456"
+      it "苗字が全角でないと登録できない" do
+        @user.family_name = "a12345"
         @user.valid?
         expect(@user.errors[:family_name]).to include "は全角で入力して下さい"
       end
@@ -76,8 +83,8 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors[:first_name]).to include "を入力してください"
       end
-      it "名前が数字では登録できない" do
-        @user.first_name = "123456"
+      it "名前が全角でないと登録できない" do
+        @user.first_name = "a12345"
         @user.valid?
         expect(@user.errors[:first_name]).to include "は全角で入力して下さい"
       end
