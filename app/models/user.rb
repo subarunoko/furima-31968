@@ -15,4 +15,7 @@ class User < ApplicationRecord
     validates :birthday
     validates :password,format:{with: /(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}/, message: "英字と数字の両方を含めて設定してください" }
   end
+
+  has_many :items
+
 end
