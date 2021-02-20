@@ -1,4 +1,6 @@
 class ItemsController < ApplicationController
+  before_action :authenticate_user!, except: [:index ]
+  
   def index
 
   end
@@ -8,7 +10,6 @@ class ItemsController < ApplicationController
   end
 
   def create
-    # binding.pry
     @item = Item.new(item_params)
     if @item.save        # saveはアクティブレコードメソッド
       redirect_to root_path   # "保存成功"

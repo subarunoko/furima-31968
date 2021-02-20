@@ -10,14 +10,8 @@ FactoryBot.define do
     rnd_prefecture = random.rand(1..47)
     rnd_delivery_days = random.rand(1..3)
 
-    # 'require {"securerandom"}'
-    # text1 = SecureRandom.alphanumeric(50)
-    # text2 = SecureRandom.alphanumeric(150)
-
     title                 {"sample1"}
-    # title2                 {text1}
     description           {"text"}
-    # description2           {text2}
     price                 {rnd_price}
     category_id           {rnd_category}
     state_id              {rnd_state}

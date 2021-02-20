@@ -5,7 +5,7 @@ RSpec.describe Item, type: :model do
     @item = FactoryBot.build(:item)
   end
 
-  describe "ユーザー新規登録" do
+  describe "商品出品新規登録" do
     context "出品登録がうまくいくとき" do
       it "title等が存在すれば登録できる" do
         expect(@item).to be_valid
@@ -41,8 +41,13 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors[:price]).to include "を入力してください"
       end      
-      it "priceが数字以外では登録できない" do
+      it "priceが英字では登録できない" do
         @item.price = "abcd"
+        @item.valid?
+        expect(@item.errors[:price]).to include "が範囲対象外です"
+      end
+      it "priceが半角英数字では登録できない" do
+        @item.price = "123abc"
         @item.valid?
         expect(@item.errors[:price]).to include "が範囲対象外です"
       end
@@ -97,8 +102,6 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors[:delivery_days_id]).to include "が未選択です"
       end
-
     end
-
   end
 end
