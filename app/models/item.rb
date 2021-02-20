@@ -4,19 +4,18 @@ class Item < ApplicationRecord
     validates :title, length: { maximum: 40, message: "の文字数の上限が40文字を超えてます" }
     validates :description , length: { maximum: 1000, message: "の文字数の上限が1000文字を超えてます"  }
     validates :price, format: {with: /\A[0-9]+\z/, message: "は半角数字で入力して下さい"}
-    validates :image, unless: :was_attached?
+    validates :image
   end
 
-  validates :category_id, numericality: { other_than: 0, message: "が未選択です"}
-  validates :state_id, numericality: { other_than: 0, message: "が未選択です"}
-  validates :delivery_fee_id, numericality: { other_than: 0, message: "が未選択です"}
-  validates :delivery_area_id, numericality: { other_than: 0, message: "が未選択です"}
-  validates :delivery_days_id, numericality: { other_than: 0, message: "が未選択です"}
+  with_options numericality: { other_than: 0, message: "が未選択です"} do |i|
+    i.validates :category_id
+    i.validates :state_id
+    i.validates :delivery_fee_id
+    i.validates :delivery_area_id
+    i.validates :delivery_days_id
+  end
+  
   validates :price, numericality: { only_integer: true, greater_than: 300, less_than: 9999999, message: "が範囲対象外です"}
-
-  def was_attached?
-    self.image.attached?
-  end
 
 
   extend ActiveHash::Associations::ActiveRecordExtensions

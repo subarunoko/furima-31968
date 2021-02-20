@@ -3,11 +3,6 @@ require 'rails_helper'
 RSpec.describe Item, type: :model do
   before do
     @item = FactoryBot.build(:item)
-
-    # @item_error = FactoryBot.build(:item  )  
-
-
-
   end
 
   describe "ユーザー新規登録" do
@@ -15,14 +10,8 @@ RSpec.describe Item, type: :model do
       it "title等が存在すれば登録できる" do
         expect(@item).to be_valid
       end
-      # it "passwordが 6文字以上かつ半角英数字含む であれば登録できる" do
-      #   @user.password = "a12345"
-      #   @user.password_confirmation = "a12345"
-      #   expect(@user).to be_valid
-      # end  
     end 
-  
-  
+   
     context "出品登録がうまくいかないとき" do  
       it "titleが空では登録できない" do
         @item.title = ""
