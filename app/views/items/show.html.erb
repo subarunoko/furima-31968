@@ -25,7 +25,6 @@
 
     <% if user_signed_in? %>
       <%# 出品者とログインユーザーが同じであれば以下を表示 #覚書きのためコメント削除しません %>
-      <% else %> %>
       <% if current_user.id == @item.user.id %>   
         <%= link_to "商品の編集", "#", method: :get, class: "item-red-btn" %>
         <p class="or-text">or</p>

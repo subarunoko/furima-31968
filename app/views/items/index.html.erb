@@ -129,7 +129,6 @@
       <%# 商品のインスタンス変数が空でない場合 %>
       <% if @items.present? %>
         <li class='list'>
-          <%#= link_to @items, item_path(@items) do %>
           <% @items.each do |item| %>
             <%= link_to item_path(item) do %>
               <div class='item-img-content'>
