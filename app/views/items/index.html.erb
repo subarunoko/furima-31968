@@ -129,10 +129,10 @@
       <%# 商品のインスタンス変数が空でない場合 %>
       <% if @items.present? %>
         <li class='list'>
-          <%= link_to "#" do %>
-            <% @items.each do |item| %>
+          <% @items.each do |item| %>
+            <%= link_to item_path(item) do %>
               <div class='item-img-content'>
-                  <%= image_tag item.image.variant(resize: '250x250'), class: "item-img" %>
+                  <%=image_tag(item.image.variant(resize: '250x250'), class: "item-img") %>
 
                   <%# 商品が売れていればsold outを表示しましょう %>
                   <%# <div class='sold-out'> %>
@@ -143,10 +143,10 @@
               </div>
               <div class='item-info'>
                 <h3 class='item-name'>
-                  <%= item.title %>
+                  <%=item.title %>
                 </h3>
                 <div class='item-price'>
-                  <span><%= item.price %>円<br><%= item.delivery_fee.name %></span>
+                  <span><%=item.price %>円<br><%=item.delivery_fee.name %></span>
         
                     <div class='star-btn'>
                       <%= image_tag "star.png", class:"star-icon" %>

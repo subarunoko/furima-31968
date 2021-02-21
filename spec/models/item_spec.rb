@@ -91,10 +91,10 @@ RSpec.describe Item, type: :model do
         expect(@item.errors[:delivery_fee_id]).to include "が未選択です"
       end
 
-      it "delivery_area_idが未選択では登録できない" do
-        @item.delivery_area_id = 0
+      it "prefecture_idが未選択では登録できない" do
+        @item.prefecture_id = 0
         @item.valid?
-        expect(@item.errors[:delivery_area_id]).to include "が未選択です"
+        expect(@item.errors[:prefecture_id]).to include "が未選択です"
       end
 
       it "delivery_days_idが未選択では登録できない" do

@@ -11,7 +11,7 @@ class Item < ApplicationRecord
     i.validates :category_id
     i.validates :state_id
     i.validates :delivery_fee_id
-    i.validates :delivery_area_id
+    i.validates :prefecture_id
     i.validates :delivery_days_id
   end
   

@@ -16,7 +16,7 @@ FactoryBot.define do
     category_id           {rnd_category}
     state_id              {rnd_state}
     delivery_fee_id       {rnd_delivery_fee}
-    delivery_area_id      {rnd_prefecture}
+    prefecture_id         {rnd_prefecture}
     delivery_days_id      {rnd_delivery_days}
 
     after(:build) do |item|
