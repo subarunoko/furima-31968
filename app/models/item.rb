@@ -15,16 +15,19 @@ class Item < ApplicationRecord
     i.validates :delivery_days_id
   end
   
-  validates :price, numericality: { only_integer: true, greater_than: 300, less_than: 9999999, message: "が範囲対象外です"}
+  validates :price, numericality: { only_integer: true, greater_than: 299, less_than: 9999999, message: "が範囲対象外です"}
 
 
-  extend ActiveHash::Associations::ActiveRecordExtensions
   has_one_attached :image  #<<<<<< imagemagik対応
   belongs_to :user
+
+  extend ActiveHash::Associations::ActiveRecordExtensions
+  # has_one_attached :image  #<<<<<< imagemagik対応
+  # belongs_to :user
   belongs_to :category
   belongs_to :state
-  belongs_to :deliveryfee 
+  belongs_to :delivery_fee 
   belongs_to :prefecture
-  belongs_to :deliveryday
+  belongs_to :delivery_days
 
 end
