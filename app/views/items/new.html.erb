@@ -8,6 +8,7 @@
     <h2 class="items-sell-title">商品の情報を入力</h2>
     <%= form_with model: @item, url: items_path, local: true do |f| %>
 
+    <%# エラー発生時の表示 #覚書きのためコメント削除しない %>
     <%= render 'shared/error_messages', model: @item %>
 
     <%# 出品画像 %>
