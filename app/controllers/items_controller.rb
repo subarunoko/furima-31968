@@ -19,12 +19,19 @@ class ItemsController < ApplicationController
       render :new             #"保存失敗"
     end
   end
-  
+
+  def destroy
+    if @item.destroy
+      redirect_to root_path
+    else
+      render :destroy
+    end
+  end
+
   def show
   end
 
   def edit
-
   end
 
   def update
