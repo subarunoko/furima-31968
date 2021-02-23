@@ -9,9 +9,8 @@ app/assets/stylesheets/items/new.css %>
     <h2 class="items-sell-title">商品の情報を入力</h2>
     <%= form_with model: @item, url: item_path, method: :put, local: true do |f| %>
 
-    <%# インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
+    <%# エラー発生時の表示 #覚書きのためコメント削除しない %>
     <%= render 'shared/error_messages', model: @item %>
-    <%# //インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
 
     <%# 出品画像 %>
     <div class="img-upload">
