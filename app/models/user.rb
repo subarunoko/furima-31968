@@ -17,5 +17,6 @@ class User < ApplicationRecord
   end
 
   has_many :items
+  has_one :order  #has_many?? has_one??
 
 end
