@@ -38,7 +38,6 @@ class OrdersController < ApplicationController
   end
 
   def order_params
-    # binding.pry
     params.require(:order_delivery_info).permit(:postal_code, :prefecture_id, :city, :house_number, :building_name, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])  ##params[item_id]の取り出し方めっちゃ苦労した ※覚書きのためコメント削除しません
   end
 

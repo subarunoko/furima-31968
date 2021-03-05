@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe OrderDeliveryInfo, type: :model do
-  # pending "add some examples to (or delete) #{__FILE__}"
   before do
     @order_delivery_info = FactoryBot.build(:order_delivery_info)
   end
@@ -72,7 +71,13 @@ RSpec.describe OrderDeliveryInfo, type: :model do
         @order_delivery_info.phone_number = "０９０１２３４５６７８"
         @order_delivery_info.valid?
         expect(@order_delivery_info.errors[:phone_number]).to include "が無効です 半角数字で入力して下さい(※ハイフンなし)"
-      end      
+      end
+      
+      it "phone_numberが英数字混合だと登録できない" do
+        @order_delivery_info.phone_number = "0901234abcd"
+        @order_delivery_info.valid?
+        expect(@order_delivery_info.errors[:phone_number]).to include "が無効です 半角数字で入力して下さい(※ハイフンなし)"
+      end   
 
       it "phone_numberでハイフンがあると登録できない" do
         @order_delivery_info.phone_number = "090−1234567"
@@ -84,8 +89,7 @@ RSpec.describe OrderDeliveryInfo, type: :model do
         @order_delivery_info.phone_number = "090123456789"
         @order_delivery_info.valid?
         expect(@order_delivery_info.errors[:phone_number]).to include "が無効です 11桁以内で入力して下さい(※ハイフンなし)"
-      end      
-
+      end
       
     end
   end
