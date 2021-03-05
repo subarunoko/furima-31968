@@ -20,10 +20,9 @@ class Item < ApplicationRecord
 
   has_one_attached :image  #<<<<<< imagemagik対応
   belongs_to :user
+  has_one :order
 
   extend ActiveHash::Associations::ActiveRecordExtensions
-  # has_one_attached :image  #<<<<<< imagemagik対応
-  # belongs_to :user
   belongs_to :category
   belongs_to :state
   belongs_to :delivery_fee 
