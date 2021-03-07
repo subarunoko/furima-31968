@@ -14,7 +14,7 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save        # saveはアクティブレコードメソッド
-      redirect_to root_path   # "保存成功"
+      redirect_to root_path   # "保存成功" トップページへ戻る
     else
       render :new             #"保存失敗"
     end
@@ -50,7 +50,15 @@ class ItemsController < ApplicationController
   end
 
   def contributor_confirmation
-    redirect_to root_path unless current_user == @item.user
+    # redirect_to root_path unless current_user == @item.user
+    # binding.pry
+    if @item.order.present?
+      redirect_to root_path and return
+    end
+    # binding.pry
+    if current_user != @item.user
+      redirect_to root_path and return
+    end
   end
 
   def item_params    #取得したいキーをpermitで調整 >>>>> 指定したキーのみ取得
