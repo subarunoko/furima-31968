@@ -55,7 +55,6 @@ class ItemsController < ApplicationController
     if @item.order.present?
       redirect_to root_path and return
     end
-    # binding.pry
     if current_user != @item.user
       redirect_to root_path and return
     end
