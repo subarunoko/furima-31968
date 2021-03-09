@@ -5,10 +5,14 @@ Rails.application.routes.draw do
   resources :items do               #>>>>>>>>>>>> づまずいた部分 ※購入画面で利用するためネストさせている  覚書きのためコメント削除しません
     resources :orders, only: [:index, :new, :create] do
       collection do
-        # get "done", to: "order#done"
         get "done"
       end
+    end  
+
+    collection do
+      get "search"
     end
   end
+
 
 end
