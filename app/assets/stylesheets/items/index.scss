@@ -260,6 +260,7 @@ a {
   height: 33vh;
 }
 
+///////////////////////////////////////////
 .sold-out {
   position: absolute;
   top: 40%;
@@ -274,6 +275,32 @@ a {
   font-size: 45px;
   font: bold;
 }
+///////////////////////////////////////////
+
+// .sold-out {
+//   width: 0;
+//   height: 0;
+//   border-top: 150px solid #ea352d ;
+//   border-right: 150px solid transparent;
+//   border-bottom: 150px solid transparent;
+//   border-left: 150px solid #ea352d ;
+//   z-index:100;
+//   position: relative;
+//   top:-510px;
+// }
+
+// .sold-out>span {
+//   // color: #FFF;
+//   // font-size: 45px;
+//   // font: bold;
+//     transform: rotate(-45deg);
+//     font-size: 40px;
+//     margin: -100px -120px 0px -156px;
+//     color: #fff;
+//     letter-spacing: 2px;
+//     font-weight: 600;
+//     display: block;
+// }
 
 
 .item-info {

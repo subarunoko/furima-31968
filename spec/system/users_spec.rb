@@ -49,7 +49,9 @@ RSpec.describe "ユーザー新規登録", type: :system do
       # トップページにサインアップページへ遷移するボタンがあることを確認する
       expect(page).to have_content("新規登録")
       # 新規登録ページへ移動する
-      visit new_user_registration_path
+      click_on "新規登録" 
+      # visit new_user_registration_path
+
       # ユーザー情報を入力する
       fill_in "nickname", with: ""
       fill_in "email", with: ""
@@ -86,7 +88,9 @@ RSpec.describe "ログイン", type: :system do
       # トップページにログインページへ遷移するボタンがあることを確認する
       expect(page).to have_content("ログイン")
       # ログインページへ遷移する
-      visit new_user_session_path
+      click_on "ログイン" 
+      # visit new_user_session_path
+
       # 正しいユーザー情報を入力する
       fill_in "email", with: @user.email
       fill_in "password", with: @user.password
@@ -111,7 +115,9 @@ RSpec.describe "ログイン", type: :system do
       # トップページにログインページへ遷移するボタンがあることを確認する
       expect(page).to have_content("ログイン")
       # ログインページへ遷移する
-      visit new_user_session_path
+      click_on "ログイン" 
+      # visit new_user_session_path
+
       # ユーザー情報を入力する
       fill_in "email", with: ""
       fill_in "password", with: ""
