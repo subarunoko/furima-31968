@@ -101,7 +101,7 @@ RSpec.describe "購入品機能", type: :system do
       
       click_on "購入画面に進む"
 
-      #商品の編集ページへ遷移することを確認する
+      #商品の購入ページへ遷移しないことを確認する
       expect(current_path).not_to eq item_orders_path(@item2)
     end
   end
