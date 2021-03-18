@@ -6,6 +6,33 @@ ja:
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
+    attributes:
+      user:
+        nickname: ニックネーム
+        email: メールアドレス
+        encrypted_password: メールアドレス(確認)
+        family_name: 苗字
+        first_name: 氏名
+        family_name_kana: 苗字(カナ)
+        first_name_kana: 氏名(カナ)
+        birthday: 生年月日
+      item:
+        title: 商品名
+        description: 商品説明
+        price: 価格
+        category_id: カテゴリ
+        state_id: 商品状態
+        delivery_fee_id: 配送料負担
+        prefecture_id: 配送地域
+        delivery_days_id: 配送日数
+        image: 出品画像
+      delivery_info:
+        postal_code: 郵便番号
+        prefecture_id: 県名
+        city: 市町村名
+        house_number: 番地名
+        building_name: 建物名
+        phone_number: 電話番号
   date:
     abbr_day_names:
     - 日

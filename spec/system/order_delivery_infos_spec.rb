@@ -17,8 +17,8 @@ RSpec.describe "購入品機能", type: :system do
       #トップページへ遷移することを確認する
       expect(current_path).to eq root_path
 
-      #「SOLD OUT」の文字がないことを確認する      
-      expect(page).to have_no_content("Sold Out!!") 
+      #「SOLD」の文字がないことを確認する      
+      expect(page).to have_no_content("SOLD")
 
       #すでに投稿済みの内容がフォームに入っていることを確認する（タイトル, 価格）
       expect(page).to have_content("#{@item2.title}")
@@ -28,8 +28,8 @@ RSpec.describe "購入品機能", type: :system do
       #商品詳細ページへ遷移する
       visit item_path(@item2)
       
-      #「SOLD OUT」の文字がないことを確認する      
-      expect(page).to have_no_content("Sold Out!!") 
+      #「SOLD」の文字がないことを確認する      
+      expect(page).to have_no_content("SOLD")
 
       #編集,削除のボタンがないことを確認する
       expect(page).to have_no_content("商品の編集")
@@ -84,22 +84,22 @@ RSpec.describe "購入品機能", type: :system do
       #トップページページへ遷移することを確認する
       expect(current_path).to eq root_path      
 
-      #「SOLD OUT」の文字があることを確認する      
-      expect(page).to have_content("Sold Out!!")
+      #「SOLD」の文字があることを確認する      
+      expect(page).to have_content("SOLD")
 
       #商品詳細ページへ遷移する
       visit item_path(@item2)
       
-      #「SOLD OUT」の文字があることを確認する      
-      expect(page).to have_content("Sold Out!!") 
+      #「SOLD」の文字があることを確認する      
+      expect(page).to have_content("SOLD") 
 
       #編集,削除のボタンがないことを確認する
       expect(page).to have_no_content("商品の編集")
       expect(page).to have_no_content("削除")
-      #購入画面に進むのボタンがあることを確認する
-      expect(page).to have_content("購入画面に進む")
+      #この商品は売り切れましたのボタンがあることを確認する
+      expect(page).to have_content("この商品は売り切れました")
       
-      click_on "購入画面に進む"
+      click_on "この商品は売り切れました"
 
       #商品の購入ページへ遷移しないことを確認する
       expect(current_path).not_to eq item_orders_path(@item2)
@@ -114,14 +114,14 @@ RSpec.describe "購入品機能", type: :system do
       #トップページへ遷移することを確認する
       expect(current_path).to eq root_path
 
-      #「SOLD OUT」の文字がないことを確認する      
-      expect(page).to have_no_content("Sold Out!!") 
+      #「SOLD」の文字がないことを確認する      
+      expect(page).to have_no_content("SOLD") 
 
       #商品詳細ページへ遷移する
       visit item_path(@item1)
 
-      #「SOLD OUT」の文字がないことを確認する      
-      expect(page).to have_no_content("Sold Out!!")
+      #「SOLD」の文字がないことを確認する      
+      expect(page).to have_no_content("SOLD")
 
       #購入画面に進むのボタンがないことを確認する
       expect(page).to have_no_content("購入画面に進む")       
@@ -131,14 +131,14 @@ RSpec.describe "購入品機能", type: :system do
       #トップページにいる
       visit root_path
 
-      #「SOLD OUT」の文字がないことを確認する      
-      expect(page).to have_no_content("Sold Out!!")      
+      #「SOLD」の文字がないことを確認する      
+      expect(page).to have_no_content("SOLD")  
 
       #商品詳細ページへ遷移する
       visit item_path(@item1)
 
-      #「SOLD OUT」の文字がないことを確認する      
-      expect(page).to have_no_content("Sold Out!!")
+      #「SOLD」の文字がないことを確認する      
+      expect(page).to have_no_content("SOLD")
 
       #購入画面に進むのボタンがないことを確認する
       expect(page).to have_no_content("購入画面に進む") 
@@ -149,8 +149,8 @@ RSpec.describe "購入品機能", type: :system do
       #商品2の詳細ページへ遷移する
       visit item_path(@item2)
 
-      #「SOLD OUT」の文字がないことを確認する      
-      expect(page).to have_no_content("Sold Out!!")
+      #「SOLD」の文字がないことを確認する      
+      expect(page).to have_no_content("SOLD")
 
       #購入画面に進むのボタンがないことを確認する
       expect(page).to have_no_content("購入画面に進む")
