@@ -260,21 +260,47 @@ a {
   height: 33vh;
 }
 
+///////////////////////////////////////////
+// .sold-out {
+//   position: absolute;
+//   top: 40%;
+//   width: 100%;
+//   text-align: center;
+//   background-color: crimson;
+//   transform: skewY(-10deg);
+// }
+
+// .sold-out>span {
+//   color: #FFF;
+//   font-size: 45px;
+//   font: bold;
+// }
+///////////////////////////////////////////
+
 .sold-out {
+  width: 0;
+  height: 0;
+  border-width: 120px 120px 0 0;
+  border-color: #ea352d transparent transparent transparent;
+  display: block;
   position: absolute;
-  top: 40%;
-  width: 100%;
-  text-align: center;
-  background-color: crimson;
-  transform: skewY(-10deg);
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border-style: solid;
 }
 
 .sold-out>span {
-  color: #FFF;
-  font-size: 45px;
-  font: bold;
+  top: -90px;
+  font-size: 25px;
+  position: absolute;
+  left: 0;
+  z-index: 2;
+  color: #fff;
+  transform: rotate(-45deg);
+  letter-spacing: 2px;
+  font-weight: 600;
 }
-
 
 .item-info {
   background-color: #FFF;

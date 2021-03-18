@@ -11,7 +11,8 @@
         <%# 商品が売れていればsold outを表示 ※覚書のためコメント削除しません %>
         <% if @item.order.present? %>
           <div class='sold-out'>
-            <span>Sold Out!!</span>
+            <%# <span>Sold Out!!</span> %>
+            <span>SOLD</span>
           </div>
         <% end %>
         
@@ -30,10 +31,15 @@
       <% if current_user.id == @item.user.id %>   
         <%= link_to "商品の編集", edit_item_path(@item), method: :get, class: "item-red-btn" %>
         <p class="or-text">or</p>
-        <%= link_to "削除", item_path(@item), method: :delete, class:"item-destroy" %>
+        <%#= link_to "削除", item_path(@item), method: :delete, class:"item-destroy" %>
+        <%= link_to "削除", destroy_caution_item_path(@item), method: :get, class:"item-destroy" %>
       <%# 出品者とログインユーザーが異なれば以下を表示  #覚書きのためコメント削除しません %>
       <% else %>
-        <%= link_to "購入画面に進む", item_orders_path(@item) ,class:"item-red-btn"%>
+        <% if @item.order.present? %>
+          <%= link_to "この商品は売り切れました", item_orders_path(@item) ,class:"item-red-btn"%>
+        <% else %>
+          <%= link_to "購入画面に進む", item_orders_path(@item) ,class:"item-red-btn"%>
+        <% end %>
       <% end %>  
     <% end %>  
 

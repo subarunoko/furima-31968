@@ -128,8 +128,9 @@
 
       <%# 商品のインスタンス変数が空でない場合 %>
       <% if @items.present? %>
-        <li class='list'>
+        <%# <li class='list'> %>
           <% @items.each do |item| %>
+          <li class='list'>
             <%= link_to item_path(item) do %>
               <div class='item-img-content'>
                   <%=image_tag(item.image.variant(resize: '250x250'), class: "item-img") %>
@@ -137,7 +138,8 @@
                   <%# 商品が売れていればsold outを表示 ※覚書のためコメント削除しません %>
                   <% if item.order.present? %>
                     <div class='sold-out'>
-                      <span>Sold Out!!</span>
+                      <%# <span>Sold Out!!</span> %>
+                      <span>SOLD</span>
                     </div>
                   <% end %>
                   
@@ -155,9 +157,10 @@
                     </div>
                 </div> 
               </div>
+            </li>  
             <% end %> 
           <% end %>
-        </li>
+        <%# </li> %>
       <%# 商品のインスタンス変数が空の場合 %>
       <% else %>
         <li class='list'>

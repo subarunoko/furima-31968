@@ -9,8 +9,17 @@ Rails.application.routes.draw do
       end
     end  
 
+    #ID不要の場合
     collection do
+      get "create_done"
       get "search"
+    end
+
+    #ID要の場合
+    member do
+      get "update_done"
+      get "destroy_caution"      
+      get "destroy_done"
     end
   end
 
