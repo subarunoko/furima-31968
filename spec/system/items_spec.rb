@@ -88,7 +88,7 @@ RSpec.describe "商品編集機能", type: :system do
     @item1 = FactoryBot.create(:item)
     @item2 = FactoryBot.create(:item)
   end
-  context "商品の編集ができる時" do
+  context "商品編集ができる時" do
     it "ログインしたユーザーは商品編集ができる" do
       #商品1を投稿したユーザーでログインする
       sign_in(@item1.user)
@@ -196,7 +196,7 @@ RSpec.describe "商品削除機能", type: :system do
     @item1 = FactoryBot.create(:item)
     @item2 = FactoryBot.create(:item)
   end
-  context "商品の削除ができる時" do
+  context "商品削除ができる時" do
     it "ログインしたユーザーは商品削除ができる" do
       #商品1を投稿したユーザーでログインする
       sign_in(@item1.user)
@@ -257,7 +257,7 @@ RSpec.describe "商品削除機能", type: :system do
       expect(page).to have_no_content("#{@item1.images}")
     end
   end
-  context "商品の削除ができない時" do
+  context "商品削除ができない時" do
     it "ログインしたユーザーは自分以外が投稿した商品削除画面には遷移できない" do
       #商品1を投稿したユーザーでログインする
       sign_in(@item1.user)
@@ -295,6 +295,142 @@ RSpec.describe "商品削除機能", type: :system do
 
       #「削除」のボタンがないことを確認する
       expect(page).to have_no_content("削除")
+    end
+  end
+end
+
+
+RSpec.describe "商品検索機能", type: :system do
+  before do
+    @item1 = FactoryBot.create(:item)
+  end
+  context "商品検索ができる時" do
+    it "ログインしているユーザーについて、商品名と検索ワードが一致していれば検索結果の商品が表示される" do
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      #トップページへ遷移することを確認する
+      expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する
+      # binding.pry      
+      fill_in "item-name", with: "test_sample"
+         
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample")
+
+      #検索フォームに「test_sample」と入力する
+      fill_in "keyword", with: "test_sample"
+
+      #検索ボタンをclickする
+      find('.search-icon').click
+
+      #トップページには検索した内容の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample")
+
+    end
+
+    it "ログインしていないユーザーについて、商品名と検索ワードが一致していれば検索結果の商品が表示される" do
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      #トップページへ遷移することを確認する
+      expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する
+      # binding.pry      
+      fill_in "item-name", with: "test_sample"
+         
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample")
+
+      #ログアウトする
+      click_on "ログアウト"
+
+      #トップページへ遷移することを確認する
+      expect(current_path).to eq root_path
+
+      #検索フォームに「test_sample」と入力する
+      fill_in "keyword", with: "test_sample"
+
+      #検索ボタンをclickする
+      find('.search-icon').click
+
+      #トップページには検索した内容の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample")
+
+    end  
+
+  end
+
+  context "商品検索ができない時" do 
+    it "商品名と検索ワードが一致していないと検索結果の商品が表示されない" do
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      #トップページへ遷移することを確認する
+      expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する
+      # binding.pry      
+      fill_in "item-name", with: "test_sample1"
+         
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample1")
+
+      #検索フォームに「test_sample」と入力する
+      fill_in "keyword", with: "test_sample2"
+
+      #検索ボタンをclickする
+      find('.search-icon').click
+
+      #トップページには検索した内容の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("商品を出品してね")
+      #トップページには検索した内容の情報が存在しないことを確認する（タイトル）
+      expect(page).to have_no_content("test_sample1")
+
     end
   end
 end
