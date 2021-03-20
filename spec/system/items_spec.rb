@@ -23,7 +23,8 @@ RSpec.describe "商品出品機能", type: :system do
       #添付する画像を定義する
       image_path = Rails.root.join('public/images/test_sample1.png')
       # 画像選択フォームに画像を添付する
-      attach_file("item[image]", image_path, make_visible: true)
+      # attach_file("item[image]", image_path, make_visible: true)
+      attach_file("item[images][]", image_path, make_visible: true)
 
       #フォームに情報を入力する
       fill_in "item-name", with: @item.title
@@ -249,9 +250,11 @@ RSpec.describe "商品削除機能", type: :system do
       expect(current_path).to eq root_path
 
       #トップページにはツイート1の内容が存在しないことを確認する（画像）
-      expect(page).to have_no_selector ".content_post[style='background-image: url(#{@item1.image});']"
+      # expect(page).to have_no_selector ".content_post[style='background-image: url(#{@item1.image});']"
+      expect(page).to have_no_selector ".content_post[style='background-image: url(#{@item1.images});']"      
       ## トップページにはツイート1の内容が存在しないことを確認する（タイトル, 価格）
-      expect(page).to have_no_content("#{@item1.image}")
+      # expect(page).to have_no_content("#{@item1.image}")
+      expect(page).to have_no_content("#{@item1.images}")
     end
   end
   context "商品の削除ができない時" do

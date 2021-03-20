@@ -7,7 +7,8 @@
       <%= @item.title %>
     </h2>
     <div class="item-img-content">
-      <%= image_tag @item.image.variant(resize: '250x250') ,class:"item-box-img" %>
+      <%#= image_tag @item.image.variant(resize: '250x250') ,class:"item-box-img" %>
+      <%= image_tag @item.images[0].variant(resize: '250x250') ,class:"item-box-img" %>
         <%# 商品が売れていればsold outを表示 ※覚書のためコメント削除しません %>
         <% if @item.order.present? %>
           <div class='sold-out'>

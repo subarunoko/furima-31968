@@ -26,6 +26,7 @@ ja:
         prefecture_id: 配送地域
         delivery_days_id: 配送日数
         image: 出品画像
+        images: 出品画像
       delivery_info:
         postal_code: 郵便番号
         prefecture_id: 県名
