@@ -6,18 +6,49 @@
     <h2 class="name">
       <%= @item.title %>
     </h2>
-    <div class="item-img-content">
-      <%#= image_tag @item.image.variant(resize: '250x250') ,class:"item-box-img" %>
-      <%= image_tag @item.images[0].variant(resize: '250x250') ,class:"item-box-img" %>
-        <%# 商品が売れていればsold outを表示 ※覚書のためコメント削除しません %>
-        <% if @item.order.present? %>
-          <div class='sold-out'>
-            <%# <span>Sold Out!!</span> %>
-            <span>SOLD</span>
-          </div>
-        <% end %>
-        
-    </div>
+    <div class="item-box-content">
+      <div class="item-box-main-content">
+        <%#= image_tag @item.image.variant(resize: '250x250') ,class:"item-box-img" %>
+        <%= image_tag @item.images[0].variant(resize: '350x350') ,class:"item-box-main-img" %>
+          <%# 商品が売れていればsold outを表示 ※覚書のためコメント削除しません %>
+          <% if @item.order.present? %>
+            <div class='sold-out2'>
+              <%# <span>Sold Out!!</span> %>
+              <span>SOLD</span>
+            </div>
+          <% end %>
+      </div>
+      <div class="item-box-sub-content">  
+        <div class="item-sub1">
+          <% if @item.images[1].nil? %>
+            <%= image_tag "no-image.png", class:"item-box-sub-img" %>
+          <%else %>
+            <%= image_tag @item.images[1].variant(resize: '150x150') ,class:"item-box-sub-img" %>
+          <% end %>
+        </div>
+        <div class="item-sub2">
+          <% if @item.images[2].nil? %>
+            <%= image_tag "no-image.png", class:"item-box-sub-img" %>
+          <%else %>
+            <%= image_tag @item.images[2].variant(resize: '150x150') ,class:"item-box-sub-img" %>
+          <% end %>
+        </div>  
+        <div class="item-sub3">
+          <% if @item.images[3].nil? %>
+            <%= image_tag "no-image.png", class:"item-box-sub-img" %>
+          <%else %>
+            <%= image_tag @item.images[3].variant(resize: '150x150') ,class:"item-box-sub-img" %>
+          <% end %>
+        </div>
+        <div class="item-sub4">
+          <% if @item.images[4].nil? %>
+            <%= image_tag "no-image.png", class:"item-box-sub-img" %>
+          <%else %>
+            <%= image_tag @item.images[4].variant(resize: '150x150') ,class:"item-box-sub-img" %>
+          <% end %>
+        </div>
+      </div>
+    </div>  
     <div class="item-price-box">
       <span class="item-price">
         <%= "¥ #{@item.price}" %>

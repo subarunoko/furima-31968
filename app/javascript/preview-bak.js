@@ -57,21 +57,20 @@ if (document.URL.match( /new/ ) || document.URL.match( /edit/ )) {
       // 表示する画像を生成
       const blobImage = document.createElement('img')
       // // Blob内で大きさを指定
-      blobImage.width = 100;
-      blobImage.height = 100;
+      blobImage.width = 150;
+      blobImage.height = 150;
       blobImage.setAttribute('src', blob)
 
 
       // ファイル選択ボタンを生成
       const inputHTML = document.createElement('input')
-      // inputHTML.setAttribute('id', `item-image_${imageElementNum}`)
-      inputHTML.setAttribute('id', `item-image`)
+      inputHTML.setAttribute('id', `item-image_${imageElementNum}`)
       inputHTML.setAttribute('name', 'item[images][]')
       inputHTML.setAttribute('type', 'file')
 
       // 生成したHTMLの要素をブラウザに表示させる
       imageElement.appendChild(blobImage)
-      // imageElement.appendChild(inputHTML)
+      imageElement.appendChild(inputHTML)
       ImageList.appendChild(imageElement)
 
       inputHTML.addEventListener('change', (e) => {
@@ -90,14 +89,4 @@ if (document.URL.match( /new/ ) || document.URL.match( /edit/ )) {
 
     });
   });
-
-  document.addEventListener('DOMContentLoaded', function(){
-    const ImageList = document.getElementById('image-list');
-  
-    document.getElementById('item_image').addEventListener('change', function(e){
-      console.log(e);
-    });
-  });
 }
-
-

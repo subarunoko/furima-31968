@@ -61,6 +61,7 @@ RSpec.describe "ユーザー新規登録", type: :system do
       fill_in "first-name", with: ""
       fill_in "last-name-kana", with: ""
       fill_in "first-name-kana", with: ""
+      sleep(1)     #待ち時間
       select "--", from: "user[birthday(1i)]" 
       select "--", from: "user[birthday(2i)]"  
       select "--", from: "user[birthday(3i)]" 
