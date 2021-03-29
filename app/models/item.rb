@@ -40,4 +40,12 @@ class Item < ApplicationRecord
     end
   end
 
+  def previous
+    Item.where("id > ?", id).order("id ASC").first
+  end
+
+  def next
+    Item.where("id < ?", id).order("id DESC").first
+  end  
+
 end
