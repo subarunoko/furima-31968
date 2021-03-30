@@ -62,7 +62,11 @@ class ItemsController < ApplicationController
   end
 
   def search
-    @items = Item.search(params[:keyword])
+    if params["search"].present?
+      @items = Item.search_category(params["search"]["value"])    #カテゴリ検索
+    else
+      @items = Item.search(params[:keyword])                      #キーワード検索
+    end
   end
 
 

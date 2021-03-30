@@ -13,7 +13,7 @@
           <% if @item.previous.present? %>
             <%= link_to "＜", item_path(@item.previous), class:"change-up-item-btn" %>
           <% else %>
-            <a href="#" class="change-up-item-btn">
+            <a class="change-item-hidden-btn">
               ＜
             </a>
           <% end %>
@@ -69,7 +69,7 @@
           <% if @item.next.present? %>
             <%= link_to "＞", item_path(@item.next), class:"change-up-item-btn" %>
           <% else %>
-            <a href="#" class="change-up-item-btn">
+            <a class="change-item-hidden-btn">
               ＞
             </a>
           <% end %>
@@ -166,19 +166,19 @@
     <% if @item.previous.present? %>
       <%= link_to "＜ 前の商品", item_path(@item.previous), class:"change-item-btn" %>
     <% else %>
-      <a href="#" class="change-item-btn">
+      <a class="change-item-hidden-btn">
         ＜ 前の商品
       </a>
     <% end %>
     <% if @item.next.present? %>
       <%= link_to "次の商品 ＞", item_path(@item.next), class:"change-item-btn" %>
     <% else %>
-      <a href="#" class="change-item-btn">
+      <a class="change-item-hidden-btn">
         次の商品 ＞
       </a>
     <% end %>
   </div>
-  <a href="#" class="another-item"><%= @item.category.name %>をもっと見る</a>
+  <%= link_to "#{@item.category.name}をもっと見る", search_items_path('search[value]': @item.category.id), class:"another-item" %>
 </div>
 
 <%= render "shared/footer" %>

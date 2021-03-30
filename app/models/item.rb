@@ -31,13 +31,17 @@ class Item < ApplicationRecord
   belongs_to :prefecture
   belongs_to :delivery_days
 
-
+  
   def self.search(search)
     if search != ""
-      Item.where('title LIKE(?)', "%#{search}%")
+      Item.where('title LIKE(?)', "%#{search}%").order("created_at DESC")
     else
       Item.all
     end
+  end
+
+  def self.search_category(search)
+    Item.where("category_id LIKE ?", "%#{search}%").order("created_at DESC")
   end
 
   def previous

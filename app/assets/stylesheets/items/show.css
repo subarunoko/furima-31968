@@ -270,6 +270,11 @@
   color: #3CCACE;
 }
 
+.change-item-hidden-btn {
+  color: #fff;
+  /* display: none; */
+}
+
 .another-item {
   display: block;
   margin: 30px 0px 8px;
