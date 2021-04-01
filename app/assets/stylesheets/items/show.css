@@ -271,7 +271,8 @@
 }
 
 .change-item-hidden-btn {
-  color: #fff;
+  font-size: 30px;
+  color: #f8f8f8;
   /* display: none; */
 }
 

@@ -22,6 +22,7 @@ RSpec.describe "ユーザー新規登録", type: :system do
       fill_in "first-name", with: @user.first_name
       fill_in "last-name-kana", with: @user.family_name_kana
       fill_in "first-name-kana", with: @user.first_name_kana
+      sleep(2)     #待ち時間
       select @user.birthday.year, from: "user[birthday(1i)]" 
       select @user.birthday.month, from: "user[birthday(2i)]"  
       select @user.birthday.day, from: "user[birthday(3i)]" 

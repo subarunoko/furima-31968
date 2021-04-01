@@ -13,9 +13,7 @@
           <% if @item.previous.present? %>
             <%= link_to "＜", item_path(@item.previous), class:"change-up-item-btn" %>
           <% else %>
-            <a class="change-item-hidden-btn">
-              ＜
-            </a>
+            <a class="change-item-hidden-btn">＿</a>
           <% end %>
         </div>
         <div class="item-box-side-down-content">
@@ -69,9 +67,7 @@
           <% if @item.next.present? %>
             <%= link_to "＞", item_path(@item.next), class:"change-up-item-btn" %>
           <% else %>
-            <a class="change-item-hidden-btn">
-              ＞
-            </a>
+            <a class="change-item-hidden-btn">＿</a>
           <% end %>
         </div>
         <div class="item-box-side-down-content">
@@ -167,14 +163,14 @@
       <%= link_to "＜ 前の商品", item_path(@item.previous), class:"change-item-btn" %>
     <% else %>
       <a class="change-item-hidden-btn">
-        ＜ 前の商品
+        前の商品
       </a>
     <% end %>
     <% if @item.next.present? %>
       <%= link_to "次の商品 ＞", item_path(@item.next), class:"change-item-btn" %>
     <% else %>
       <a class="change-item-hidden-btn">
-        次の商品 ＞
+        次の商品
       </a>
     <% end %>
   </div>
