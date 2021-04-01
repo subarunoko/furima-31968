@@ -1,6 +1,7 @@
 <%# cssは商品出品のものを併用しています。
 app/assets/stylesheets/items/new.css %>
 
+<% breadcrumb :item_edit %>
 <div class="items-sell-contents">
   <header class="items-sell-header">
     <%= link_to image_tag('furima-logo-color.png' , size: '185x50'), "/" %>
@@ -19,13 +20,17 @@ app/assets/stylesheets/items/new.css %>
         <span class="indispensable">必須</span>
       </div>
       <div class="click-upload">
+        <%# <div id="image-list"></div> %>
         <p>
           クリックしてファイルをアップロード
         </p>
-        <%= f.file_field :image, id:"item-image" %>
+        <%#= f.file_field :image, id:"item-image" %>
+        <%= f.file_field :images, name: 'item[images][]', id: 'item-image', multiple: true  %>
+        <div id="image-list" class="image-list"></div>
       </div>
     </div>
     <%# /出品画像 %>
+
     <%# 商品名と商品説明 %>
     <div class="new-items">
       <div class="weight-bold-text">

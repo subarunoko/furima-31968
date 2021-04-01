@@ -1,3 +1,4 @@
+<% breadcrumb :item_new %>
 <div class="items-sell-contents">
   <header class="items-sell-header">
     <%= link_to image_tag('furima-logo-color.png' , size: '185x50'), "/" %>
@@ -21,7 +22,10 @@
         <p>
           クリックしてファイルをアップロード
         </p>
-        <%= f.file_field :image, id:"item-image" %>
+        <%#= f.file_field :image, id:"item-image" %>
+        <%= f.file_field :images, name: 'item[images][]', id: 'item-image', multiple: true %>
+        <%# <div id="image-list"></div> %>
+        <div id="image-list" class="image-list"></div>
       </div>
     </div>
     <%# /出品画像 %>

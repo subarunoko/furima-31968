@@ -68,9 +68,11 @@ RSpec.describe Item, type: :model do
       end
 
       it "imageが空では登録できない" do
-        @item.image = nil
+        # @item.image = nil
+        @item.images = nil
         @item.valid?
-        expect(@item.errors[:image]).to include "を入力してください"
+        # expect(@item.errors[:image]).to include "を入力してください"
+        expect(@item.errors[:images]).to include "を入力してください"
       end
 
       it "category_idが未選択では登録できない" do

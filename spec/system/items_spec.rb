@@ -23,7 +23,8 @@ RSpec.describe "商品出品機能", type: :system do
       #添付する画像を定義する
       image_path = Rails.root.join('public/images/test_sample1.png')
       # 画像選択フォームに画像を添付する
-      attach_file("item[image]", image_path, make_visible: true)
+      # attach_file("item[image]", image_path, make_visible: true)
+      attach_file("item[images][]", image_path, make_visible: true)
 
       #フォームに情報を入力する
       fill_in "item-name", with: @item.title
@@ -87,7 +88,7 @@ RSpec.describe "商品編集機能", type: :system do
     @item1 = FactoryBot.create(:item)
     @item2 = FactoryBot.create(:item)
   end
-  context "商品の編集ができる時" do
+  context "商品編集ができる時" do
     it "ログインしたユーザーは商品編集ができる" do
       #商品1を投稿したユーザーでログインする
       sign_in(@item1.user)
@@ -195,7 +196,7 @@ RSpec.describe "商品削除機能", type: :system do
     @item1 = FactoryBot.create(:item)
     @item2 = FactoryBot.create(:item)
   end
-  context "商品の削除ができる時" do
+  context "商品削除ができる時" do
     it "ログインしたユーザーは商品削除ができる" do
       #商品1を投稿したユーザーでログインする
       sign_in(@item1.user)
@@ -249,12 +250,14 @@ RSpec.describe "商品削除機能", type: :system do
       expect(current_path).to eq root_path
 
       #トップページにはツイート1の内容が存在しないことを確認する（画像）
-      expect(page).to have_no_selector ".content_post[style='background-image: url(#{@item1.image});']"
+      # expect(page).to have_no_selector ".content_post[style='background-image: url(#{@item1.image});']"
+      expect(page).to have_no_selector ".content_post[style='background-image: url(#{@item1.images});']"      
       ## トップページにはツイート1の内容が存在しないことを確認する（タイトル, 価格）
-      expect(page).to have_no_content("#{@item1.image}")
+      # expect(page).to have_no_content("#{@item1.image}")
+      expect(page).to have_no_content("#{@item1.images}")
     end
   end
-  context "商品の削除ができない時" do
+  context "商品削除ができない時" do
     it "ログインしたユーザーは自分以外が投稿した商品削除画面には遷移できない" do
       #商品1を投稿したユーザーでログインする
       sign_in(@item1.user)
@@ -295,3 +298,580 @@ RSpec.describe "商品削除機能", type: :system do
     end
   end
 end
+
+
+RSpec.describe "商品検索機能(キーワード検索)", type: :system do
+  before do
+    @item1 = FactoryBot.create(:item)
+  end
+  context "商品検索ができる時" do
+    it "ログインしているユーザーについて、商品名と検索ワードが一致していれば検索結果の商品が表示される" do
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する   
+      fill_in "item-name", with: "test_sample"
+         
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample")
+
+      #検索フォームに「test_sample」と入力する
+      fill_in "keyword", with: "test_sample"
+
+      #検索ボタンをclickする
+      find('.search-icon').click
+
+      #トップページには検索した内容の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample")
+
+    end
+
+    it "ログインしていないユーザーについて、商品名と検索ワードが一致していれば検索結果の商品が表示される" do
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する   
+      fill_in "item-name", with: "test_sample"
+         
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample")
+
+      #ログアウトする
+      click_on "ログアウト"
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #検索フォームに「test_sample」と入力する
+      fill_in "keyword", with: "test_sample"
+
+      #検索ボタンをclickする
+      find('.search-icon').click
+
+      #トップページには検索した内容の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample")
+
+    end  
+  end
+
+
+  context "商品検索ができない時" do 
+    it "商品名と検索ワードが一致していないと検索結果の商品が表示されない" do
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する
+      # binding.pry      
+      fill_in "item-name", with: "test_sample1"
+         
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample1")
+
+      #検索フォームに「test_sample」と入力する
+      fill_in "keyword", with: "test_sample2"
+
+      #検索ボタンをclickする
+      find('.search-icon').click
+
+      #トップページには検索した内容の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("商品を出品してね")
+      #トップページには検索した内容の情報が存在しないことを確認する（タイトル）
+      expect(page).to have_no_content("test_sample1")
+
+    end
+  end
+end
+
+
+RSpec.describe "商品検索機能(カテゴリ検索)", type: :system do
+  before do
+    @item1 = FactoryBot.create(:item)
+    @item2 = FactoryBot.create(:item)
+  end
+  context "商品検索ができる時" do
+    it "ログインしているユーザーについて、カテゴリ検索結果の商品が表示される" do
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する    
+      fill_in "item-name", with: "test_sample1"
+      #プルダウンから情報を選択する
+      select "食品関係", from: "item[category_id]" 
+          
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample1")
+
+      #ログアウトする
+      click_on "ログアウト"
+
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item2.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item2)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する    
+      fill_in "item-name", with: "test_sample2"
+      #プルダウンから情報を選択する
+      select "その他", from: "item[category_id]" 
+          
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample2")
+
+      #ログアウトする
+      click_on "ログアウト"        
+
+      #再度商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)        
+
+      click_on "食品関係をもっと見る"
+
+      #トップページへ遷移することを確認する
+      expect(current_path).to eq search_items_path
+  
+      #トップページには検索した内容の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample1")
+
+      #トップページには検索した内容の情報が存在しないことを確認する（タイトル）
+      expect(page).to have_no_content("test_sample2")
+
+    end
+
+    it "ログインしていないユーザーについて、カテゴリ検索結果の商品が表示される" do
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する    
+      fill_in "item-name", with: "test_sample1"
+      #プルダウンから情報を選択する
+      select "食品関係", from: "item[category_id]" 
+          
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample1")
+
+      #ログアウトする
+      click_on "ログアウト"
+
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item2.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item2)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する    
+      fill_in "item-name", with: "test_sample2"
+      #プルダウンから情報を選択する
+      select "その他", from: "item[category_id]" 
+          
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample2")
+
+      #ログアウトする
+      click_on "ログアウト"        
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)        
+
+      click_on "食品関係をもっと見る"
+
+      #トップページへ遷移することを確認する
+      expect(current_path).to eq search_items_path
+  
+      #トップページには検索した内容の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample1")
+
+      #トップページには検索した内容の情報が存在しないことを確認する（タイトル）
+      expect(page).to have_no_content("test_sample2")
+
+    end 
+  end
+
+end
+
+
+RSpec.describe "商品表示機能(前後ページ)", type: :system do
+  before do
+    @item1 = FactoryBot.create(:item)
+    @item2 = FactoryBot.create(:item)
+  end
+  context "前後ページの表示ができる時" do
+    it "ログインしているユーザーについて、商品が表示される" do
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する    
+      fill_in "item-name", with: "test_sample1"
+          
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample1")
+
+      #ログアウトする
+      click_on "ログアウト"
+
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item2.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item2)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する    
+      fill_in "item-name", with: "test_sample2"
+          
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample2")
+
+      #ログアウトする
+      click_on "ログアウト"        
+
+      #再度商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品1の詳細ページへ遷移する
+      visit item_path(@item1)        
+
+      click_on "＜"
+
+      #商品2の詳細ページへ遷移することを確認する
+      expect(current_path).to eq item_path(@item2)
+  
+      #商品2の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample2")
+
+      click_on "＞"
+
+      #商品1の詳細ページへ遷移することを確認する
+      expect(current_path).to eq item_path(@item1)
+
+      #商品1の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample1")
+
+    end
+
+
+    it "ログインしていないユーザーについて、商品が表示される" do
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する    
+      fill_in "item-name", with: "test_sample1"
+          
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample1")
+
+      #ログアウトする
+      click_on "ログアウト"
+
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item2.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item2)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する    
+      fill_in "item-name", with: "test_sample2"
+          
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample2")
+
+      #ログアウトする
+      click_on "ログアウト"        
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品1の詳細ページへ遷移する
+      visit item_path(@item1)        
+
+      click_on "＜"
+
+      #商品2の詳細ページへ遷移することを確認する
+      expect(current_path).to eq item_path(@item2)
+  
+      #商品2の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample2")
+
+      click_on "＞"
+
+      #商品1の詳細ページへ遷移することを確認する
+      expect(current_path).to eq item_path(@item1)
+
+      #商品1の情報が存在することを確認する（タイトル）
+      expect(page).to have_content("test_sample1")
+    end
+  end
+
+  context "前後ページの表示ができない時" do
+    it "最初の商品の場合、「＞」が表示されない or 最新の商品の場合、「＜」が表示されない" do
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item1)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する    
+      fill_in "item-name", with: "test_sample1"
+          
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample1")
+
+      #ログアウトする
+      click_on "ログアウト"
+
+      #商品1を投稿したユーザーでログインする
+      sign_in(@item2.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品詳細ページへ遷移する
+      visit item_path(@item2)
+      
+      #商品編集ページへ遷移する
+      click_on "商品の編集"
+      
+      #投稿内容を編集する    
+      fill_in "item-name", with: "test_sample2"
+          
+      #編集ボタンをclickしても商品モデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      #トップページへ戻るボタンを押す
+      click_on "トップページへ戻る"
+
+      # #トップページには先ほど変更した内容の情報が存在することを確認する（タイトル）
+      # expect(page).to have_content("test_sample2")
+
+      #ログアウトする
+      click_on "ログアウト"        
+
+      #再度商品1を投稿したユーザーでログインする
+      sign_in(@item1.user)
+
+      # #トップページへ遷移することを確認する
+      # expect(current_path).to eq root_path
+
+      #商品2の詳細ページへ遷移する
+      visit item_path(@item2)
+
+      #「＜」が存在しないことを確認する
+      expect(page).to have_no_content("＜")
+
+      #商品1の詳細ページへ遷移しないことを確認する
+      expect(current_path).to_not eq item_path(@item1)
+  
+      click_on "＞"
+
+      #「＞」が存在しないことを確認する
+      expect(page).to have_no_content("＞")
+
+      #商品2の詳細ページへ遷移しないことを確認する
+      expect(current_path).to_not eq item_path(@item2)
+    
+    end
+  end
+
+end
+
+
+
+

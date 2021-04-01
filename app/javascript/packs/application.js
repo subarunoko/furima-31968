@@ -10,6 +10,7 @@ require("channels")
 require("../calc_price")
 require("../card")
 require("jquery")
+require("../preview")
 // require("../jquery.jpostal")
 // require("../address_auto")
 

@@ -74,10 +74,11 @@
 
 /* 出品画像 */
 .img-upload {
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
   flex-wrap: wrap;
   padding: 2vh 0;
+  /* text-align: center; */
 }
 
 .click-upload {
@@ -87,6 +88,18 @@
 
 .click-upload>p {
   margin-bottom: 15px;
+}
+
+.image-list{
+  display: flex;
+}
+
+.image-element{
+  border: 0.5px solid #8a8989ea;
+  margin: 10px 1px;
+  height: 100px;
+  width: 24.5%;
+  /* display: flex; */
 }
 
 /* /出品画像 */

@@ -1,3 +1,4 @@
+<% breadcrumb :item_destroy %>
 <%= render "shared/second-header"%>
 
 <div class='transaction-contents'>
@@ -6,20 +7,9 @@
       <p>以下の商品を削除します。</p>
       <p>本当によろしいですか？</p>
     </h1>
+    
     <%# 購入内容の表示 %>
-    <div class='buy-item-info'>
-      <%= image_tag @item.image.variant(resize: '150x150'), class: 'buy-item-img' %>      
-      <div class='buy-item-right-content'>
-        <h2 class='buy-item-text'>
-          <%= @item.title %>
-        </h2>
-        <div class='buy-item-price'>
-          <p class='item-price-text'>¥<%= @item.price %></p>
-          <p class='item-price-sub-text'><%= "　#{@item.delivery_fee.name}" %></p>
-        </div>
-      </div>
-    </div>
-    <%# /購入内容の表示 %>
+    <%= render "shared/item-contents-show" %>
 
     <div class='buy-btn'>
       <%= link_to "商品詳細ページへ戻る", item_path(params[:id]), name: "commit_top", class: "buy-red-btn" %>

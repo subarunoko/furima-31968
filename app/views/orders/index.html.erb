@@ -1,3 +1,4 @@
+<% breadcrumb :item_order %>
 <%= render "shared/second-header"%>
 
 <div class='transaction-contents'>
@@ -5,21 +6,9 @@
     <h1 class='transaction-title-text'>
       購入内容の確認
     </h1>
+    
     <%# 購入内容の表示 %>
-    <div class='buy-item-info'>
-      <%#= image_tag "item-sample.png", class: 'buy-item-img' %>
-      <%= image_tag @order.image.variant(resize: '150x150'), class: 'buy-item-img' %>      
-      <div class='buy-item-right-content'>
-        <h2 class='buy-item-text'>
-          <%= @order.title %>
-        </h2>
-        <div class='buy-item-price'>
-          <p class='item-price-text'>¥<%= @order.price %></p>
-          <p class='item-price-sub-text'><%= "　#{@order.delivery_fee.name}" %></p>
-        </div>
-      </div>
-    </div>
-    <%# /購入内容の表示 %>
+    <%= render "shared/order-contents-show" %>
 
     <%# 支払額の表示 %>
     <div class='item-payment'>

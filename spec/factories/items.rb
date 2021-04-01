@@ -26,7 +26,8 @@ FactoryBot.define do
     delivery_days_id      {rnd_delivery_days}
 
     after(:build) do |item|
-      item.image.attach(io: File.open("public/images/test_sample1.png"), filename: "test_image.png")
+      # item.image.attach(io: File.open("public/images/test_sample1.png"), filename: "test_image.png")
+      item.images.attach(io: File.open("public/images/test_sample1.png"), filename: "test_image.png")
     end
   end
 end

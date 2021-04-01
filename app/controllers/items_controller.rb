@@ -62,7 +62,11 @@ class ItemsController < ApplicationController
   end
 
   def search
-    @items = Item.search(params[:keyword])
+    if params["search"].present?
+      @items = Item.search_category(params["search"]["value"])    #カテゴリ検索
+    else
+      @items = Item.search(params[:keyword])                      #キーワード検索
+    end
   end
 
 
@@ -97,7 +101,8 @@ class ItemsController < ApplicationController
   end
 
   def item_params    #取得したいキーをpermitで調整 >>>>> 指定したキーのみ取得
-    params.require(:item).permit(:title, :description, :price, :category_id, :state_id, :delivery_fee_id, :prefecture_id, :delivery_days_id, :image).merge(user_id: current_user.id)  
+    # params.require(:item).permit(:title, :description, :price, :category_id, :state_id, :delivery_fee_id, :prefecture_id, :delivery_days_id, :image).merge(user_id: current_user.id)  
+    params.require(:item).permit(:title, :description, :price, :category_id, :state_id, :delivery_fee_id, :prefecture_id, :delivery_days_id, images: []).merge(user_id: current_user.id)   #画像複数枚投稿
   end
 
 end
